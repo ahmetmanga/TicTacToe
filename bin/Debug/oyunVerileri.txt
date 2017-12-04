@@ -1,0 +1,8 @@
+İsim: asd
+Harf: X
+Boyut: 5
+X - - O - 
+X - - - - 
+X - - O - 
+O - - - - 
+- - - - - 
