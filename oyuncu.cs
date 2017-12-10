@@ -14,9 +14,10 @@ namespace TicTacToe
             get { return h; }
             set
             {
-                if(value == 'X' || value == 'O')
+                if(value == 'X' || value == 'O' || value == 'x' || value == 'o')
                 {
-                    h = value;
+                    string h_2 = value.ToString().ToUpper();
+                    h = Convert.ToChar(h_2);
                 }else
                 {
                     h = 'X';

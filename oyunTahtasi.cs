@@ -54,7 +54,7 @@ namespace TicTacToe
         {
             System.Threading.Thread.Sleep(500);
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Blue;
+            if(kullanici.oyuncuTurunuAl()) Console.ForegroundColor = ConsoleColor.Green; else Console.ForegroundColor = ConsoleColor.Red;
 
             Console.Write("\n\tİsim: " + kullanici.isim + "\t\t\t Oynadığı Harf: " + kullanici.karakteriAl() + "\t\t Oyuncu Türü: ");
             Console.WriteLine((!kullanici.oyuncuTurunuAl()) ? "Bilgisayar" : "Kullanıcı");
