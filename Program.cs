@@ -63,13 +63,16 @@ namespace TicTacToe
         public void kayittanYukle()
         {
             int boyut;
-            string isim;
+            string isim = " ";
             string[] dizi;
             char[,] t;
             char harf;
             StreamReader sr = new StreamReader("oyunVerileri.txt");
             dizi = sr.ReadLine().Split(' ');
-            isim = dizi[1];
+
+            for (int i = 1; i < dizi.Length; i++)   isim = String.Concat(isim, dizi[i] + " ");
+
+
             dizi = sr.ReadLine().Split(' ');
             harf = Convert.ToChar(dizi[1]);
             dizi = sr.ReadLine().Split(' ');
@@ -122,6 +125,7 @@ namespace TicTacToe
                 {
                     hucre = bilgisayar.bilgisayarHamlesiUret();
                 }
+                tictac.oyunTahtasiniYazdir(bilgisayar);
                 Console.WriteLine("Bilgisayar hamle üretti.");
 
             }

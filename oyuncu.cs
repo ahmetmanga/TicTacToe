@@ -55,18 +55,12 @@ namespace TicTacToe
             return insan;
         }
 
-        public string oyuncununHamlesiniAl()
-        {
-            return "a";
-        }
         public string insanOyuncuHamlesiniKontrol()
         {
             Console.WriteLine();
             Console.Write("Hücre Giriniz (Çıkış için 1 'e basın): ");
             Console.WriteLine();
-            return Console.ReadLine();
-            
-            
+            return Console.ReadLine();                        
         }
 
         public string bilgisayarHamlesiUret()

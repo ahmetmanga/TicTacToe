@@ -1,8 +1,8 @@
-İsim: asd
+İsim:  asd 
 Harf: X
 Boyut: 5
-X - - O - 
-X - - - - 
-X - - O - 
-O - - - - 
-- - - - - 
+X O X O X 
+X X O O - 
+X - X - O 
+X - - X O 
+O - - O O 

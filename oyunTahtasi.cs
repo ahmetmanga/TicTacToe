@@ -52,11 +52,12 @@ namespace TicTacToe
         }
         public void oyunTahtasiniYazdir(oyuncu kullanici)
         {
-            System.Threading.Thread.Sleep(300);
+            System.Threading.Thread.Sleep(500);
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
 
-            Console.WriteLine("\n\tİsim: " + kullanici.isim + "\t\t\t Oynadığı Harf: " + kullanici.harf);
+            Console.Write("\n\tİsim: " + kullanici.isim + "\t\t\t Oynadığı Harf: " + kullanici.karakteriAl() + "\t\t Oyuncu Türü: ");
+            Console.WriteLine((!kullanici.oyuncuTurunuAl()) ? "Bilgisayar" : "Kullanıcı");
             Console.ForegroundColor = ConsoleColor.White;
 
             char[] d = { 'A', 'B', 'C', 'D', 'E', 'F', 'G' };
@@ -71,10 +72,10 @@ namespace TicTacToe
             Console.WriteLine();
             for (i = 0; i < n; i++)
             {
-                Console.Write("   " + (i+1) + "\t|");
+                Console.Write("   " + (i+1) + "\t");
                 for (j = 0; j < n; j++)
                 {   
-                    Console.Write("\t"+ tahta[i, j] + "\t|");
+                    Console.Write("\t"+ tahta[i, j] + "\t");
                 }
                 Console.WriteLine();
                 this.cizgi();
