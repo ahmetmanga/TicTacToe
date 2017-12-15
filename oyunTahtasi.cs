@@ -21,8 +21,7 @@ namespace TicTacToe
             } }
         public oyunTahtasi()
         {
-
-
+            tahta = new char[n, n];
         }
 
         public oyunTahtasi(int b)

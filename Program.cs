@@ -15,24 +15,29 @@ namespace TicTacToe
         static void Main()
         {
             Console.Title = "TicTacToe | Proje 4";
-          
+
             Program p = new Program();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Yeni Oyun Açmak İçin - 1");
+            Console.WriteLine("Kayıttan Oyun Yüklemek İçin - 1");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Kayıttan Oyun Yüklemek İçin - 2");
+            Console.WriteLine("Yeni Oyun Açmak İçin - Bir Tuşa Basın");
             Console.ForegroundColor = ConsoleColor.White;
 
 
             text = Console.ReadLine();
-            int secim = p.sayiKontrol(text) ? Convert.ToInt32(text) : 1;
+            while (String.IsNullOrEmpty(text))
+            {
+                Console.Write("Hata! Tekrar Seçin:");
+                text = Console.ReadLine();
+            }
 
-            if (secim == 2) p.kayittanYukle(); else p.normalYukle();
+            int secim = (p.sayiKontrol(text)) ? Convert.ToInt32(text) : 2;
+            if (secim == 1) p.kayittanYukle(); else p.normalYukle();
 
             p.oyunuOyna();
 
             Console.ReadLine();
-            
+
         }
 
         public void normalYukle()
@@ -42,9 +47,17 @@ namespace TicTacToe
             string isim;
             char harf;
             Console.Write("Tablo boyutunu girin : ");
-            
+
             text = Console.ReadLine();
-            while (!sayiKontrol(text))
+            while (String.IsNullOrEmpty(text))
+            {
+                Console.Write("Hata! Tekrar Seçin:");
+                text = Console.ReadLine();
+            }
+
+
+            int[] boyutDizisi = { 3, 5, 7 };
+            while (!sayiKontrol(text) || Array.IndexOf(boyutDizisi, int.Parse(text)) == -1)
             {
                 Console.Write("Tablo boyutunu girin : ");
                 text = Console.ReadLine();
@@ -54,8 +67,8 @@ namespace TicTacToe
             isim = Console.ReadLine();
             Console.Write("Harf Seçin. (X yada O) - Direk geçmek isterseniz başka tuşa basın : ");
             harf = Convert.ToChar(Console.ReadLine());
-
-            tictac = new oyunTahtasi(boyut);
+            oyunTahtasi.boyut = boyut;
+            tictac = new oyunTahtasi();
 
             nesneOlustur(harf, isim);
         }
@@ -67,43 +80,51 @@ namespace TicTacToe
             string[] dizi;
             char[,] t;
             char harf;
-            StreamReader sr = new StreamReader("oyunVerileri.txt");
-            dizi = sr.ReadLine().Split(' ');
-
-            for (int i = 1; i < dizi.Length; i++)   isim = String.Concat(isim, dizi[i] + " ");
-
-
-            dizi = sr.ReadLine().Split(' ');
-            harf = Convert.ToChar(dizi[1]);
-            dizi = sr.ReadLine().Split(' ');
-            boyut = int.Parse(dizi[1]);
-           
-            Console.WriteLine("Text Dosyası Okundu. Veriler Alındı.");
-            Console.ForegroundColor = ConsoleColor.White;
-
-            t = new char[boyut, boyut];
-            for (int i = 0; i < boyut; i++)
+            try
             {
+                StreamReader sr = new StreamReader("oyunVerileri.txt");
                 dizi = sr.ReadLine().Split(' ');
-                for (int j = 0; j < dizi.Length-1; j++)
+
+                for (int i = 1; i < dizi.Length; i++) isim = String.Concat(isim, dizi[i] + " ");
+
+
+                dizi = sr.ReadLine().Split(' ');
+                harf = Convert.ToChar(dizi[1]);
+                dizi = sr.ReadLine().Split(' ');
+                boyut = int.Parse(dizi[1]);
+
+                Console.WriteLine("Text Dosyası Okundu. Veriler Alındı.");
+                Console.ForegroundColor = ConsoleColor.White;
+
+                t = new char[boyut, boyut];
+                for (int i = 0; i < boyut; i++)
                 {
-                   if(dizi[j] == "X" || dizi[j] == "O")
+                    dizi = sr.ReadLine().Split(' ');
+                    for (int j = 0; j < dizi.Length - 1; j++)
                     {
-                        t[i, j] = Convert.ToChar(dizi[j]);
-                    }
-                   if(dizi[j] != "X" && dizi[j] != "O")
-                    {
+                        if (dizi[j] == "X" || dizi[j] == "O")
+                        {
+                            t[i, j] = Convert.ToChar(dizi[j]);
+                        }
+                        if (dizi[j] != "X" && dizi[j] != "O")
+                        {
 
-                        t[i, j] = Convert.ToChar(" ");
-                    }
+                            t[i, j] = Convert.ToChar(" ");
+                        }
 
+                    }
                 }
-            }
-           
-            tictac = new oyunTahtasi(t);
 
-            nesneOlustur(harf, isim);
-            sr.Close();
+                tictac = new oyunTahtasi(t);
+
+                nesneOlustur(harf, isim);
+                sr.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Bir hata oluştu");
+                Main();
+            }
         }
 
         public void oyunuOyna()
@@ -111,10 +132,11 @@ namespace TicTacToe
             string hucre;
             bool kayit = false;
             while (tictac.bosYer() && !(tictac.kazanan(kullanici.harf) || tictac.kazanan(bilgisayar.harf)))
-            {   tekrar:
+            {
+            tekrar:
                 tictac.oyunTahtasiniYazdir(kullanici);
                 hucre = kullanici.insanOyuncuHamlesiniKontrol();
-                if (hucre == "1") { kayit = true; break; }else if(hucre.Length <= 1) { goto tekrar;  }
+                if (hucre == "1") { kayit = true; break; } else if (hucre.Length <= 1) { goto tekrar; }
                 while (tictac.hamleyiYaz(hucre, kullanici.harf) == false)
                 {
                     hucre = kullanici.insanOyuncuHamlesiniKontrol();
@@ -158,8 +180,8 @@ namespace TicTacToe
             Console.WriteLine("Tekrar Oynamak İstermisiniz? (Evet : 1)");
             text = Console.ReadLine();
             int secim = (sayiKontrol(text)) ? Convert.ToInt32(text) : 2;
-            if(secim == 1) Main(); else Environment.Exit(2);
-            
+            if (secim == 1) Main(); else Environment.Exit(2);
+
 
         }
 
@@ -177,13 +199,13 @@ namespace TicTacToe
 
         public bool sayiKontrol(string text)
         {
-            foreach(char c in text)
+            foreach (char c in text)
             {
                 if (!Char.IsNumber(c)) return false;
             }
             return true;
         }
 
-       
+
     }
 }
